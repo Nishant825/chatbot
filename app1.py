@@ -8,12 +8,17 @@ from langchain_google_genai import ChatGoogleGenerativeAI, GoogleGenerativeAIEmb
 from langchain.chains import ConversationalRetrievalChain
 from langchain.memory import ConversationBufferMemory
 
-# Set the API Key for Gemini
-os.environ["GOOGLE_API_KEY"] = "AIzaSyC23ApPsVXGoVkX9KwsDWk_PPXv6T6K1aA"
+# Access secrets securely using Streamlit secrets
+google_api_key = st.secrets["google"]["api_key"]
+redis_url = st.secrets["redis"]["url"]
+index_name = st.secrets["redis"]["index_name"]
 
-# Redis connection and model settings
-REDIS_URL = "redis://:UMuw76rrG4fo9bgUQD1wn8v8B6GbZB6t@redis-16132.crce182.ap-south-1-1.ec2.redns.redis-cloud.com:16132"
-INDEX_NAME = "gemini_docs"
+# Set the API Key for Gemini (from Streamlit secrets)
+os.environ["GOOGLE_API_KEY"] = google_api_key
+
+# Redis connection and model settings (using Streamlit secrets for security)
+REDIS_URL = redis_url
+INDEX_NAME = index_name
 
 # Initialize the Gemini LLM and Embedding model
 llm = ChatGoogleGenerativeAI(model="gemini-2.0-flash-001")
